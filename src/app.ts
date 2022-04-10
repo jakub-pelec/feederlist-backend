@@ -6,7 +6,7 @@ import cors from 'cors';
 
 dotenv.config()
 const corsConfig = {
-    origin: 'localhost:3000',
+    origin: 'http://localhost:3000',
     optionsSuccessStatus: 200
   }
 
