@@ -1,5 +1,7 @@
-export const enum ROUTES {
-    'test' = '/test',
-    'version' = '/version',
-    'users' = '/users'
+const createApiPath = (path: string) => `/api/v1/${path}`
+
+export const ROUTES = {
+    test: createApiPath('test'),
+    version: createApiPath('version'),
+    users: createApiPath('users')
 }
