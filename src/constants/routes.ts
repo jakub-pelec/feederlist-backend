@@ -1,4 +1,5 @@
 export const enum ROUTES {
     'test' = '/test',
-    'version' = '/version'
+    'version' = '/version',
+    'users' = '/users'
 }
