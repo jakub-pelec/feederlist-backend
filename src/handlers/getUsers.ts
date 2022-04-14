@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
-import mockUsers from '../mock/users'
+import client from "../services/mongoDb";
 
-export default (req: Request, res: Response) => {
-	return res.status(200).send(mockUsers);
+export default async (req: Request, res: Response) => {
+	const db = await client.getDatabase("local");
+	const users = await db?.collection("users").find().toArray();
+	return res.status(200).send({ users });
 };
