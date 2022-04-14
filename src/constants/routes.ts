@@ -6,5 +6,6 @@ export const ROUTES = {
     users: createApiPath('users'),
     user: createApiPath('user'),
     upvote: createApiPath('upvote'),
-    downvote: createApiPath('downvote')
+    downvote: createApiPath('downvote'),
+    userDetails: createApiPath('user/details')
 }
