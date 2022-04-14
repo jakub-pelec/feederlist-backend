@@ -19,7 +19,12 @@ app.use(bodyParser.json());
 app.get(ROUTES.test, handlers.test);
 app.get(ROUTES.version, handlers.version);
 app.get(ROUTES.users, handlers.getUsers);
+app.get(ROUTES.user, handlers.getUserById);
+
 app.put(ROUTES.users, handlers.addUser);
+
+app.patch(ROUTES.upvote, handlers.upvote);
+app.patch(ROUTES.downvote, handlers.downvote);
 
 app.listen(PORT, () => {
 	console.log(`Listening on PORT ${PORT}`);
