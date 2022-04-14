@@ -14,7 +14,7 @@ class RiotApi {
 	async getPuuid(username: string) {
 		try {
 			const resp = await axios.get(
-				`${this.urlBase}/lol/summoner/v4/summoners/by-name/${username}`,
+				`${this.urlBase}/lol/summoner/v4/summoners/by-name/${encodeURIComponent(username)}`,
 				{
 					headers: {
 						"X-Riot-Token": this.API_KEY,
@@ -31,7 +31,8 @@ class RiotApi {
 	}
 
 	async checkUsername(username: string) {
-		return !!this.getPuuid(username);
+        const userExists = await this.getPuuid(username);
+		return !!userExists;
 	}
 }
 
