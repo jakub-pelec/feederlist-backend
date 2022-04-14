@@ -4,17 +4,30 @@ import client from "../services/mongoDb";
 import RiotApi from "../services/riot";
 
 export default async (req: Request, res: Response) => {
+	const db = await client.getDatabase("local");
 	const { username } = req.body;
-	const summonerExists = await RiotApi.checkUsername(username);
-	if (!summonerExists) {
+	const puuid = await RiotApi.checkUsername(username);
+	if (!puuid) {
 		return res.status(404).send({ message: "User doesn't exist" });
+	}
+	const currentUser = await db?.collection("users").findOne({ puuid });
+	if (currentUser?.username !== username) {
+		await db?.collection("users").findOneAndUpdate(
+			{ puuid },
+			{ $set: { username } }
+		);
+	}
+	if (currentUser) {
+		return res
+			.status(403)
+			.send({ message: "User alredy exists in database" });
 	}
 	const payload = {
 		username,
 		upvotes: 0,
 		downvotes: 0,
+		puuid,
 	};
-	const db = await client.getDatabase("local");
 	try {
 		const data = await db?.collection("users").insertOne(payload);
 		return res

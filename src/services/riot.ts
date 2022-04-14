@@ -25,14 +25,13 @@ class RiotApi {
 				return resp.data.puuid;
 			}
 		} catch (e) {
-			return null;
+			return false;
 		}
-		return null;
+		return false;
 	}
 
 	async checkUsername(username: string) {
-        const userExists = await this.getPuuid(username);
-		return !!userExists;
+        return this.getPuuid(username);
 	}
 }
 
