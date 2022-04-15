@@ -8,7 +8,6 @@ class MongoDB {
 	connection: MongoClient | null = null;
 
 	constructor() {
-		console.log(this.connectionString);
 		this.connection = new MongoClient(this.connectionString);
 	}
 
