@@ -20,6 +20,7 @@ app.get(ROUTES.test, handlers.test);
 app.get(ROUTES.version, handlers.version);
 app.get(ROUTES.users, handlers.getUsers);
 app.get(ROUTES.user, handlers.getUserById);
+app.get(ROUTES.userDetails, handlers.userDetails);
 
 app.put(ROUTES.users, handlers.addUser);
 
