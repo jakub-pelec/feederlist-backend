@@ -4,7 +4,7 @@ import client from "../services/mongoDb";
 import RiotApi from "../services/riot";
 
 export default async (req: Request, res: Response) => {
-	const db = await client.getDatabase("local");
+	const db = await client.getDatabase("test");
 	const { username } = req.body;
 	const puuid = await RiotApi.checkUsername(username);
 	if (!puuid) {

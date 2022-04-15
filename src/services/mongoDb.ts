@@ -1,10 +1,14 @@
 import { MongoClient } from "mongodb";
+import dotenv from 'dotenv';
+dotenv.config();
 
 class MongoDB {
-	connectionString: string = "mongodb://localhost:27017";
+	connectionString: string =
+		process.env.MONGODB_URL || "mongodb://localhost:27017";
 	connection: MongoClient | null = null;
 
 	constructor() {
+		console.log(this.connectionString);
 		this.connection = new MongoClient(this.connectionString);
 	}
 
