@@ -13,7 +13,12 @@ class MongoDB {
 	}
 
 	async connect() {
-		await this.connection?.connect();
+		const client = await this.connection?.connect();
+		const databasesList = await client!.db().admin().listDatabases();
+
+		console.log("Databases:");
+		databasesList.databases.forEach(db => console.log(` - ${db.name}`));
+		return client;
 	}
 
 	async getDatabase(database: string) {
