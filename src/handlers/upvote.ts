@@ -4,7 +4,7 @@ import client from "../services/mongoDb";
 
 export default async (req: Request, res: Response) => {
 	const { id } = req.body;
-	const db = await client.getDatabase("local");
+	const db = await client.getDatabase("test");
 	try {
 		const data = await db?.collection("users").findOneAndUpdate(
 			{ _id: new ObjectId(id) },
@@ -17,7 +17,7 @@ export default async (req: Request, res: Response) => {
 		if (data?.ok) {
 			return res.status(200).send({
 				message: "User upvoted sucesfully",
-				upvotes: data?.value?.upvotes,
+				upvotes: data?.value?.upvotes + 1,
 			});
 		}
 		return res.status(403).send({ message: "Something went wrong." });

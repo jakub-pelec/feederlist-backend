@@ -5,7 +5,7 @@ import withPagination from "../utils/withPagination";
 
 export default async (req: Request, res: Response) => {
 	const { offset, limit } = req.body;
-	const db = await client.getDatabase("local");
+	const db = await client.getDatabase("test");
 	const query = await withPagination(
 		db
 			?.collection("users")
