@@ -13,7 +13,7 @@ export default async (req: Request, res: Response) => {
 	try {
 		const data = await db
 			?.collection("users")
-			.find({ username }, { projection: getProjection })
+			.find({ username: decodeURIComponent(username as string) }, { projection: getProjection })
 			.toArray();
 		if (data?.length) {
 			return res.status(200).send({
