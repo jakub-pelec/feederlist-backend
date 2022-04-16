@@ -1,3 +1,5 @@
+import regions from "../constants/regions";
+
 export {};
 
 declare global {
@@ -36,4 +38,6 @@ declare global {
 		database: string,
 		riotApiKey: string,
 	}
+
+	type Region = keyof typeof regions
 }

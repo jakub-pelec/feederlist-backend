@@ -8,7 +8,7 @@ class RiotApi {
 
 	async getPuuid(
 		username: string,
-		region: keyof typeof regions
+		region: Region
 	): Promise<string | false> {
 		try {
 			this.setUrlBase(region);
@@ -35,7 +35,7 @@ class RiotApi {
 
 	async getDetailsByPuuid(
 		puuid: string,
-		region: keyof typeof regions
+		region: Region
 	): Promise<RiotAccountDetails | null> {
 		try {
 			this.setUrlBase(region);
@@ -58,7 +58,7 @@ class RiotApi {
 
 	async getDetailsBySummonerId(
 		id: string,
-		region: keyof typeof regions
+		region: Region
 	): Promise<RiotSummonerDetails | null> {
 		try {
 			this.setUrlBase(region);
@@ -79,12 +79,12 @@ class RiotApi {
 		return null;
 	}
 
-	async checkUsername(username: string, region: keyof typeof regions) {
+	async checkUsername(username: string, region: Region) {
 		this.setUrlBase(region);
 		return this.getPuuid(username, region);
 	}
 
-	setUrlBase(region: keyof typeof regions) {
+	setUrlBase(region: Region) {
 		if (Object.keys(regions).indexOf(region) > -1) {
 			this.urlBase = regions[region];
 		} else {
