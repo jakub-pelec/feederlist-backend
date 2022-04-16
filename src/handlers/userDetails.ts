@@ -9,11 +9,11 @@ export default async (req: Request, res: Response) => {
 	if (!errors.isEmpty()) {
 		return res.status(400).send({ message: errors.array() });
 	}
-	const { id } = req.body;
+	const { id } = req.query;
 	const db = await client.getDatabase();
 	const user = await db
 		?.collection("users")
-		.find({ _id: new ObjectId(id) }, { projection: { puuid: 1 } })
+		.find({ _id: new ObjectId(id as string) }, { projection: { puuid: 1 } })
 		.toArray();
 	const puuid = user![0].puuid;
 	const region = user![0].region;
