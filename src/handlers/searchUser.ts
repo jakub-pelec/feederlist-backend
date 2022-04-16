@@ -21,7 +21,7 @@ export default async (req: Request, res: Response) => {
 				data,
 			});
 		}
-		return res.status(403).send({ message: "Something went wrong." });
+		return res.status(403).send({ message: "User not found." });
 	} catch (e) {
 		return res.status(403).send({ message: "Something went wrong." });
 	}
