@@ -9,8 +9,8 @@ export default async (req: Request, res: Response) => {
 	const db = await client.getDatabase();
 	const query = await withPagination(
 		db?.collection("users").find({}, { projection: getProjection })!,
-		parseInt(limit),
-		parseInt(offset),
+		limit ? parseInt(limit) : undefined,
+		offset ? parseInt(offset) : undefined,
 		orderBy,
 		direction as SortDirection
 	);

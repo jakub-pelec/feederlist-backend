@@ -1,12 +1,14 @@
 import { Request, Response } from "express";
 import { ObjectId } from "mongodb";
 import client from "../services/mongoDb";
+import { validationResult } from "express-validator";
 
 export default async (req: Request, res: Response) => {
-	const { id } = req.body;
-	if(!id) {
-		return res.status(403).send({message: 'Missing argument: id'});
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		return res.status(400).send({ message: errors.array() });
 	}
+	const { id } = req.body;
 	const db = await client.getDatabase();
 	try {
 		const data = await db?.collection("users").findOneAndUpdate(

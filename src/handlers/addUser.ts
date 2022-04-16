@@ -2,16 +2,16 @@ import { Request, Response } from "express";
 import { MongoServerError } from "mongodb";
 import client from "../services/mongoDb";
 import RiotApi from "../services/riot";
+import { validationResult } from "express-validator";
 
 export default async (req: Request, res: Response) => {
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		return res.status(400).send({ message: errors.array() });
+	}
 	const db = await client.getDatabase();
 	const { username, region } = req.body;
-	if (!username) {
-		return res.status(403).send({ message: "Missing argument: username" });
-	}
-	if (!region) {
-		return res.status(403).send({ message: "Missing argument: region" });
-	}
+
 	let puuid: string | false;
 	try {
 		puuid = await RiotApi.checkUsername(username, region);
