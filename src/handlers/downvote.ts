@@ -4,7 +4,7 @@ import client from "../services/mongoDb";
 
 export default async (req: Request, res: Response) => {
 	const { id } = req.body;
-	const db = await client.getDatabase("test");
+	const db = await client.getDatabase();
 	try {
 		const data = await db?.collection("users").findOneAndUpdate(
 			{ _id: new ObjectId(id) },

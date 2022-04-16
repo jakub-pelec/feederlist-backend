@@ -5,7 +5,7 @@ import getProjection from "../constants/getProjection";
 
 export default async (req: Request, res: Response) => {
 	const { id } = req.body;
-	const db = await client.getDatabase("test");
+	const db = await client.getDatabase();
 	const user = await db
 		?.collection("users")
 		.find({ _id: new ObjectId(id) }, { projection: getProjection }).toArray()

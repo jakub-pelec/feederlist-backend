@@ -1,10 +1,9 @@
 import { MongoClient } from "mongodb";
-import dotenv from 'dotenv';
-dotenv.config();
+import config from "../config";
 
 class MongoDB {
-	connectionString: string =
-		process.env.MONGODB_URL || "mongodb://localhost:27017";
+	connectionString: string = config.mongoDbUrl;
+	database: string = config.database;
 	connection: MongoClient | null = null;
 
 	constructor() {
@@ -15,8 +14,8 @@ class MongoDB {
 		await this.connection?.connect();
 	}
 
-	async getDatabase(database: string) {
-		const db = await this.connection?.db(database);
+	async getDatabase() {
+		const db = await this.connection?.db(this.database);
 		return db;
 	}
 }

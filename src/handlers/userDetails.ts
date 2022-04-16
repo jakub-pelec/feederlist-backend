@@ -5,7 +5,7 @@ import RiotApi from "../services/riot";
 
 export default async (req: Request, res: Response) => {
 	const { id } = req.body;
-	const db = await client.getDatabase("test");
+	const db = await client.getDatabase();
 	const user = await db
 		?.collection("users")
 		.find({ _id: new ObjectId(id) }, { projection: { puuid: 1 } })

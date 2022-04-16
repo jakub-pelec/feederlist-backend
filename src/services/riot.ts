@@ -1,15 +1,9 @@
 import axios from "axios";
-import dotenv from "dotenv";
-
-dotenv.config();
+import config from "../config";
 
 class RiotApi {
 	urlBase: string = "https://eun1.api.riotgames.com";
-	API_KEY: string = "";
-
-	constructor(apiKey: string) {
-		this.API_KEY = apiKey;
-	}
+	API_KEY: string = config.riotApiKey;
 
 	async getPuuid(username: string): Promise<string | false> {
 		try {
@@ -79,6 +73,4 @@ class RiotApi {
 	}
 }
 
-const apiKey = process.env.RIOT_API_KEY;
-
-export default new RiotApi(apiKey!);
+export default new RiotApi();

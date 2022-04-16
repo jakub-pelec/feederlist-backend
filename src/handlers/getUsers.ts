@@ -1,18 +1,18 @@
 import { Request, Response } from "express";
+import { SortDirection } from "mongodb";
 import getProjection from "../constants/getProjection";
 import client from "../services/mongoDb";
 import withPagination from "../utils/withPagination";
 
 export default async (req: Request, res: Response) => {
-	const { offset, limit } = req.body;
-	const db = await client.getDatabase("test");
+	const { offset, limit, orderBy, direction } = req.params;
+	const db = await client.getDatabase();
 	const query = await withPagination(
-		db
-			?.collection("users")
-			.find({}, { projection: getProjection })
-			.sort({ username: 1 }, "asc")!,
-		limit,
-		offset
+		db?.collection("users").find({}, { projection: getProjection })!,
+		parseInt(limit),
+		parseInt(offset),
+		orderBy,
+		direction as SortDirection
 	);
 	const users = await query?.toArray();
 	return res.status(200).send({ users });

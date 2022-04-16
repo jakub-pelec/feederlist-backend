@@ -30,4 +30,10 @@ declare global {
 		revisionDate: number;
 		summonerLevel: number;
 	}
+
+	interface Config {
+		mongoDbUrl: string,
+		database: string,
+		riotApiKey: string,
+	}
 }
