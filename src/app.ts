@@ -5,6 +5,7 @@ import handlers from "./handlers";
 import cors from "cors";
 import bodyParser from "body-parser";
 import rateLimit from "express-rate-limit";
+import { body, query } from "express-validator";
 
 dotenv.config();
 const corsConfig = {
@@ -21,6 +22,7 @@ const limiter = rateLimit({
 
 const PORT = process.env.PORT || 3000;
 const app = express();
+app.use(express.json());
 app.use(cors(corsConfig));
 app.use(bodyParser.json());
 app.use(limiter);
@@ -28,13 +30,34 @@ app.use(limiter);
 app.get(ROUTES.test, handlers.test);
 app.get(ROUTES.version, handlers.version);
 app.get(ROUTES.users, handlers.getUsers);
-app.get(ROUTES.user, handlers.getUserById);
-app.get(ROUTES.userDetails, handlers.userDetails);
+app.get(
+	ROUTES.user,
+	query("id", "Id is required.").exists(),
+	handlers.getUserById
+);
+app.get(
+	ROUTES.userDetails,
+	query("id", "Id is required.").exists(),
+	handlers.userDetails
+);
 
-app.put(ROUTES.users, handlers.addUser);
+app.put(
+	ROUTES.users,
+	body("username", "Username is required.").exists(),
+	body("region", "Region is required.").exists(),
+	handlers.addUser
+);
 
-app.patch(ROUTES.upvote, handlers.upvote);
-app.patch(ROUTES.downvote, handlers.downvote);
+app.patch(
+	ROUTES.upvote,
+	body("id", "Id is required.").exists(),
+	handlers.upvote
+);
+app.patch(
+	ROUTES.downvote,
+	body("id", "Id is required.").exists(),
+	handlers.downvote
+);
 
 app.listen(PORT, () => {
 	console.log(`Listening on PORT ${PORT}`);
