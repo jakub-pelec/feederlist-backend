@@ -30,18 +30,34 @@ app.use(limiter);
 app.get(ROUTES.test, handlers.test);
 app.get(ROUTES.version, handlers.version);
 app.get(ROUTES.users, handlers.getUsers);
-app.get(ROUTES.user, query("id").not().isEmpty(), handlers.getUserById);
-app.get(ROUTES.userDetails, query("id").not().isEmpty(), handlers.userDetails);
+app.get(
+	ROUTES.user,
+	query("id", "Id is required.").exists(),
+	handlers.getUserById
+);
+app.get(
+	ROUTES.userDetails,
+	query("id", "Id is required.").exists(),
+	handlers.userDetails
+);
 
 app.put(
 	ROUTES.users,
-	body("username", 'Username is required.').exists(),
-	body("region", 'Region is required.').exists(),
+	body("username", "Username is required.").exists(),
+	body("region", "Region is required.").exists(),
 	handlers.addUser
 );
 
-app.patch(ROUTES.upvote, body("id").not().isEmpty(), handlers.upvote);
-app.patch(ROUTES.downvote, body("id").not().isEmpty(), handlers.downvote);
+app.patch(
+	ROUTES.upvote,
+	body("id", "Id is required.").exists(),
+	handlers.upvote
+);
+app.patch(
+	ROUTES.downvote,
+	body("id", "Id is required.").exists(),
+	handlers.downvote
+);
 
 app.listen(PORT, () => {
 	console.log(`Listening on PORT ${PORT}`);
