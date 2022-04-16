@@ -5,17 +5,29 @@ import RiotApi from "../services/riot";
 
 export default async (req: Request, res: Response) => {
 	const db = await client.getDatabase();
-	const { username } = req.body;
-	const puuid = await RiotApi.checkUsername(username);
+	const { username, region } = req.body;
+	if (!username) {
+		return res.status(403).send({ message: "Missing argument: username" });
+	}
+	if (!region) {
+		return res.status(403).send({ message: "Missing argument: region" });
+	}
+	let puuid: string | false;
+	try {
+		puuid = await RiotApi.checkUsername(username, region);
+	} catch (e) {
+		return res
+			.status(403)
+			.send({ message: (e as { message: string }).message });
+	}
 	if (!puuid) {
 		return res.status(404).send({ message: "User doesn't exist" });
 	}
 	const currentUser = await db?.collection("users").findOne({ puuid });
 	if (currentUser?.username !== username) {
-		await db?.collection("users").findOneAndUpdate(
-			{ puuid },
-			{ $set: { username } }
-		);
+		await db
+			?.collection("users")
+			.findOneAndUpdate({ puuid }, { $set: { username } });
 	}
 	if (currentUser) {
 		return res
@@ -27,6 +39,8 @@ export default async (req: Request, res: Response) => {
 		upvotes: 0,
 		downvotes: 0,
 		puuid,
+		createdAt: Date.now(),
+		region,
 	};
 	try {
 		const data = await db?.collection("users").insertOne(payload);

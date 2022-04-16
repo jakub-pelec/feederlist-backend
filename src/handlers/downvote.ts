@@ -4,6 +4,9 @@ import client from "../services/mongoDb";
 
 export default async (req: Request, res: Response) => {
 	const { id } = req.body;
+	if(!id) {
+		return res.status(403).send({message: 'Missing argument: id'});
+	}
 	const db = await client.getDatabase();
 	try {
 		const data = await db?.collection("users").findOneAndUpdate(

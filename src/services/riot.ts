@@ -1,12 +1,17 @@
 import axios from "axios";
 import config from "../config";
+import regions from "../constants/regions";
 
 class RiotApi {
 	urlBase: string = "https://eun1.api.riotgames.com";
 	API_KEY: string = config.riotApiKey;
 
-	async getPuuid(username: string): Promise<string | false> {
+	async getPuuid(
+		username: string,
+		region: keyof typeof regions
+	): Promise<string | false> {
 		try {
+			this.setUrlBase(region);
 			const resp = await axios.get(
 				`${
 					this.urlBase
@@ -28,8 +33,12 @@ class RiotApi {
 		return false;
 	}
 
-	async getDetailsByPuuid(puuid: string): Promise<RiotAccountDetails | null> {
+	async getDetailsByPuuid(
+		puuid: string,
+		region: keyof typeof regions
+	): Promise<RiotAccountDetails | null> {
 		try {
+			this.setUrlBase(region);
 			const resp = await axios.get(
 				`${this.urlBase}/lol/summoner/v4/summoners/by-puuid/${puuid}`,
 				{
@@ -48,9 +57,11 @@ class RiotApi {
 	}
 
 	async getDetailsBySummonerId(
-		id: string
+		id: string,
+		region: keyof typeof regions
 	): Promise<RiotSummonerDetails | null> {
 		try {
+			this.setUrlBase(region);
 			const resp = await axios.get(
 				`${this.urlBase}/lol/league/v4/entries/by-summoner/${id}`,
 				{
@@ -68,8 +79,17 @@ class RiotApi {
 		return null;
 	}
 
-	async checkUsername(username: string) {
-		return this.getPuuid(username);
+	async checkUsername(username: string, region: keyof typeof regions) {
+		this.setUrlBase(region);
+		return this.getPuuid(username, region);
+	}
+
+	setUrlBase(region: keyof typeof regions) {
+		if (Object.keys(regions).indexOf(region) > -1) {
+			this.urlBase = regions[region];
+		} else {
+			throw new Error("Invalid REGION.");
+		}
 	}
 }
 
