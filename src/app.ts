@@ -40,6 +40,11 @@ app.get(
 	query("id", "Id is required.").exists(),
 	handlers.userDetails
 );
+app.get(
+	ROUTES.searchUser,
+	query("username", "Username is required.").exists(),
+	handlers.searchUser
+);
 
 app.put(
 	ROUTES.users,

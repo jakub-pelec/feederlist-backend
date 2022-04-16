@@ -6,6 +6,7 @@ import upvote from './upvote';
 import downvote from './downvote';
 import getUserById from './getUserById';
 import userDetails from './userDetails';
+import searchUser from './searchUser';
 
 export default {
     test,
@@ -15,5 +16,6 @@ export default {
     upvote,
     downvote,
     getUserById,
-    userDetails
+    userDetails,
+    searchUser
 }
