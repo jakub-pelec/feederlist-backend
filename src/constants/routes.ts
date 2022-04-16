@@ -7,5 +7,6 @@ export const ROUTES = {
     user: createApiPath('user'),
     upvote: createApiPath('upvote'),
     downvote: createApiPath('downvote'),
-    userDetails: createApiPath('user/details')
+    userDetails: createApiPath('user/details'),
+    searchUser: createApiPath('users/search')
 }
