@@ -18,6 +18,7 @@ switch (APP_STAGE) {
 		config = local;
 }
 
+console.log();
 console.log(config);
 
 export default config as Config;
