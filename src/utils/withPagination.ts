@@ -8,6 +8,7 @@ export default (
 	direction: SortDirection = "asc"
 ) =>
 	callback
-		.skip(offset || 0)
+		.skip(offset * (limit || 50) || 0)
 		.limit(limit || 50)
-		.sort({ [orderBy]: 1 }, direction)!;
+		.collation({ locale: "en" })
+		.sort({ [orderBy]: direction || 1 })!;
